@@ -1,0 +1,25 @@
+Welcome to the Number Guessing Game!
+I'm thinking of a number between 1 and 100.
+Choose a difficulty. Type 'easy' or 'hard':
+
+hard - You have 5 attempts remaining to guess the number.
+easy - You have 10 attempts remaining to guess the number.
+
+Make a guess:
+
+- Too high.
+- or -
+- Too Low.
+Guess again.
+You have x attempts remaining to guess the number.
+Make a guess: 
+
+
+You've run out of guesses, you lose.
+
+You got it! The answer was 14.
+
+
+http://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20
+
+create as docstring """
