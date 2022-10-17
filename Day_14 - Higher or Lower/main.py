@@ -18,6 +18,7 @@ from secrets import choice
 from game_data import data
 from art import logo, vs
 import random
+import os
 
 def getnumber():
     a = random.randint(0, len(data) -1)
@@ -28,7 +29,7 @@ def getnumber():
         return a, b
 
 def choice_fun():
-    choice = str(input("Who has more followers? Type 'A' or 'B': "))
+    choice = input("Who has more followers? Type 'A' or 'B': ").lower()
     if choice == "a":
         return str("A")
     elif choice == "b":
@@ -36,32 +37,36 @@ def choice_fun():
     elif choice != str("A") or choice != str("B"):
         print("Please choose the right option. TYPE 'A' or 'B'")
         choice_fun()
-    else:
-        return str(choice)
     
 
-num_a, num_b = getnumber()
+game_on = True
 
-print(logo)
+while game_on == True:
 
-print(f"Compare A: {data[num_a]['name']}, a {data[num_a]['description']}, from {data[num_a]['country']}")
-print(vs)
-print(f"Against B: {data[num_b]['name']}, a {data[num_b]['description']}, from {data[num_b]['country']}")
+    num_a, num_b = getnumber()
 
-user_choice = choice_fun()
+    print(logo)
 
-print(user_choice)
+    print(f"Compare A: {data[num_a]['name']}, a {data[num_a]['description']}, from {data[num_a]['country']}")
+    print(vs)
+    print(f"Against B: {data[num_b]['name']}, a {data[num_b]['description']}, from {data[num_b]['country']}")
 
-if user_choice == "A":
-    if int(data[num_a]['follower_count']) >= int(data[num_b]['follower_count']):
-        print("user win1")
+    user_choice = choice_fun()
+
+    print(user_choice)
+
+    if user_choice == "A":
+        if int(data[num_a]['follower_count']) >= int(data[num_b]['follower_count']):
+            print("user win")
+        else:
+            print("user lost")
+            game_on = False
     else:
-        print("user lost")
-else:
-    if int(data[num_a]['follower_count']) <= int(data[num_b]['follower_count']):
-        print("user win")
-    else:
-        print("user lost")
+        if int(data[num_a]['follower_count']) <= int(data[num_b]['follower_count']):
+            print("user win")
+        else:
+            print("user lost")
+            game_on = False
 
-print(data[num_a]['follower_count'])
-print(data[num_b]['follower_count'])
+    print(data[num_a]['follower_count'])
+    print(data[num_b]['follower_count'])
