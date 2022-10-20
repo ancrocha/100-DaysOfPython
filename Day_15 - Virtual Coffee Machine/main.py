@@ -1,6 +1,3 @@
-from multiprocessing.spawn import prepare
-
-
 MENU = {
     "espresso": {
         "ingredients": {
@@ -39,6 +36,9 @@ def check_resources(choice):
     for item in MENU[choice]['ingredients']:
         if resources[item] < MENU[choice]['ingredients'][item]:
             print(f"Sorry there is not enough {item}")
+            return False
+        else:
+            return True
 
 
 def collect_coins(choice):
@@ -53,9 +53,12 @@ def collect_coins(choice):
     total_money = quarters + dimes + nickles + pennies
 
     if total_money >= drink_price:
-        change = total_money - drink_price
+        change = round(total_money - drink_price, 2)
         print(f"Here is ${change} in change.")
-        resources.update({'money': drink_price})
+
+        new_money = resources["money"] + drink_price
+
+        resources.update({'money': new_money})
         return True
     else:
         print("Sorry that's not enough money. Money refunded.")
@@ -63,13 +66,18 @@ def collect_coins(choice):
 
 
 def prepare_drink(choice):
-    print(choice)
+    global resources
+    for item in MENU[choice]['ingredients']:
+        new_resource = resources[item] - MENU[choice]['ingredients'][item]
+        resources.update({item: new_resource})
+
+    print(f"Here is your {choice} ☕️. Enjoy!")
 
 
 is_on = True
-
-
 while is_on == True:
+    paid = False
+    have_resources = False
     user_selection = input("What would you like? (espresso/latte/cappuccino):")
 
     if user_selection == "off":
@@ -81,11 +89,10 @@ while is_on == True:
         print(f"Money: ${resources['money']}")
     else:
         if user_selection in MENU:
-            check_resources(user_selection)
-            paid = collect_coins(user_selection)
+            have_resources = check_resources(user_selection)
+            if have_resources:
+                paid = collect_coins(user_selection)
             if paid:
                 prepare_drink(user_selection)
-            else:
-                prepare_drink("not proceed")
         else:
             print("your choice does not exist")
